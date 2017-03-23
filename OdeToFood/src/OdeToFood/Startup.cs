@@ -38,6 +38,8 @@ namespace OdeToFood
         {
             services.AddMvc();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<OdeToFoodDbContext>(
