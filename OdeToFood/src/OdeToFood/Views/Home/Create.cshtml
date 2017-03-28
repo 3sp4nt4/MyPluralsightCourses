@@ -1,13 +1,9 @@
-﻿@using OdeToFood.Entities
-@model Restaurant
+﻿@model Restaurant
 
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Create";
+}
 
-<html>
-<head>
-    <title>Create</title>
-</head>
-<body>
     <h1>Create</h1>
     
     @using (Html.BeginForm())
@@ -25,6 +21,3 @@
             <input type="submit" value="Save" />
         </div>
     }
-
-</body>
-</html>

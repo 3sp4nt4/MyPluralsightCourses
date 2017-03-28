@@ -1,23 +1,16 @@
-﻿@using OdeToFood.ViewModels
-@model HomePageViewModel
+﻿@model HomePageViewModel
 
-<!DOCTYPE html>
+@{
+    ViewBag.Title = "Home";
+}
 
-<html>
-<head>
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome</h1>
-    <h3>@Model.CurrentGreeting</h3>
-    <table>
-        @foreach (var restaurant in Model.Restaurants)
-        {
-            <tr>
-                <td>@Html.ActionLink(restaurant.Id.ToString(), "Details", new { id = restaurant.Id })</td>
-                <td>@restaurant.Name</td>
-            </tr>
-        }
-    </table>
-</body>
-</html>
+<h1>Welcome</h1>
+
+@foreach (var restaurant in Model.Restaurants)
+{
+    @Html.Partial("_Summary", restaurant)
+}
+
+<div>
+    <a asp-action="Create">Create</a>
+</div>
