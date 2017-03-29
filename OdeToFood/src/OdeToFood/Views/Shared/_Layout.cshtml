@@ -1,24 +1,42 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<!DOCTYPE html>
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width"/>
+    <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 </head>
 <body>
     <div>
         @DateTime.Now.Year
     </div>
-<div>
-    @RenderBody()
-</div>
-<footer>
     <div>
-        @RenderSection("footer", false)
+        <div>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div>@UserManager.GetUserName(User)</div>
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <input type="submit" value="Logout" />
+                </form>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login">Login</a>
+                <a asp-controller="Account" asp-action="Register">Register</a>
+            }
+        </div>
+
+        @RenderBody()
     </div>
-    <div>
-        @Component.InvokeAsync("Greeting").Result
-    </div>
-</footer>
+    <footer>
+        <div>
+            @RenderSection("footer", false)
+        </div>
+        <div>
+            @Component.InvokeAsync("Greeting").Result
+        </div>
+    </footer>
 </body>
 </html>

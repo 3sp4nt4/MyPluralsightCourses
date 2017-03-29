@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -14,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using OdeToFood.Entities;
+using OdeToFood.Middleware;
 using OdeToFood.Services;
 
 namespace OdeToFood
@@ -32,8 +28,6 @@ namespace OdeToFood
 
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -45,13 +39,14 @@ namespace OdeToFood
                 .AddDbContext<OdeToFoodDbContext>(
                     optionsAction => optionsAction.UseSqlServer(Configuration.GetSection("database:connection").Value));
 
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<OdeToFoodDbContext>();
 
             services.AddSingleton(p => Configuration);
             services.AddTransient<IGreeter, Greeter>();
             services.AddScoped<IRestaurantData, SqlRestaurantData>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app
             , IHostingEnvironment env
@@ -60,6 +55,8 @@ namespace OdeToFood
         {
             loggerFactory.AddConsole();
             app.UseFileServer();
+            app.UseNodeModules(env);
+            app.UseIdentity();
             app.UseMvc(ConfigureRoute);
 
             if (env.IsDevelopment())
