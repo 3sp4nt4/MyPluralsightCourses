@@ -7,36 +7,58 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
 </head>
 <body>
-    <div>
-        @DateTime.Now.Year
-    </div>
-    <div>
-        <div>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <div>@UserManager.GetUserName(User)</div>
-                <form method="post" asp-controller="Account" asp-action="Logout">
-                    <input type="submit" value="Logout" />
-                </form>
-            }
-            else
-            {
-                <a asp-controller="Account" asp-action="Login">Login</a>
-                <a asp-controller="Account" asp-action="Register">Register</a>
-            }
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header col-md-12">
+                <a class="navbar-brand" href="/">OdeToFood</a>
+                <div class="navbar navbar-nav navbar-right">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form method="post" asp-controller="Account" asp-action="Logout" class="navbar-form">
+                            @UserManager.GetUserName(User)
+                            <input type="submit" value="Logout" class="btn btn-danger" />
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="btn btn-default btn-xs navbar-btn" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="btn btn-default btn-xs navbar-btn" asp-controller="Account" asp-action="Register">Register</a>
+                    }
+                </div>
+            </div>
         </div>
+    </nav>
 
+    <div class="container">
         @RenderBody()
-    </div>
-    <footer>
-        <div>
+        <footer>
             @RenderSection("footer", false)
-        </div>
-        <div>
             @Component.InvokeAsync("Greeting").Result
-        </div>
-    </footer>
+        </footer>
+    </div>
+
+    <environment name="Development">
+        <script src="/node_modules/jquery/dist/jquery.js"></script>
+        <script src="/node_modules/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    </environment>
+
+    <environment name="Stataging, Production">
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"
+                asp-fallback-src="/node_modules/jquery/dist/jquery.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.min.js"
+                asp-fallback-src="/node_modules/jquery-validation/dist/jquery.validate.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+        <script src="http://ajax.aspnetcdn.com/ajax/mvc/5.2.3/jquery.validate.unobtrusive.min.js"
+                asp-fallback-src="/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+                asp-fallback-test="window.jQuery && window.jQuery.validator">
+        </script>
+    </environment>
 </body>
 </html>
