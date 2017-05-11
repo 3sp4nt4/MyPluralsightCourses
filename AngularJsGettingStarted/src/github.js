@@ -14,10 +14,27 @@
                     return response.data;
             });
         };
+
+        var _getRepoDetails = function(username, reponame) {
+            var repo;
+            var repoUrl = "https:/api.github.com/repos/" + username + "/" + reponame;
+
+            return $http.get(repoUrl)
+                .then(function(response){
+                    repo = response.data;
+                    return repo;
+                    //return $http.get(repoUrl + "/collaborators");
+                })
+                /*.then(function(response){
+                    repo.collaborators = response.data;
+                    return repo;
+                });*/
+        };
               
         return {
             getUser: _getUser,
-            getRepos: _getRepos
+            getRepos: _getRepos,
+            getRepoDetails: _getRepoDetails
         };
     };
     
