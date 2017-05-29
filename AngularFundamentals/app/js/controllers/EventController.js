@@ -1,6 +1,9 @@
 'use scrict';
 
 eventsApp.controller('EventController', ['$scope', function($scope){
+    $scope.sortorder = 'name';
+    $scope.query = '';
+
     $scope.event = {
         name: 'Angular Boot Camp',
         date: '1/1/2013',
@@ -15,7 +18,7 @@ eventsApp.controller('EventController', ['$scope', function($scope){
             {
                 name: 'Directives Masterclass',
                 creatorName: 'Bob Smith',
-                duration: '1 hr',
+                duration: 2,
                 level: 'Advanced',
                 abstract: 'In this session you will learn the ins and outs of..',
                 upVoteCount: 0
@@ -23,7 +26,7 @@ eventsApp.controller('EventController', ['$scope', function($scope){
             {
                 name: 'Scopes for fun and profit',
                 creatorName: 'John Doe',
-                duration: '30 mins',
+                duration: 1,
                 level: 'Introductory',
                 abstract: 'This session will take a closer look at scopes...',
                 upVoteCount: 0
@@ -31,7 +34,7 @@ eventsApp.controller('EventController', ['$scope', function($scope){
             {
                 name: 'Well Behave Controllers',
                 creatorName: 'Jane Doe',
-                duration: '2 hours',
+                duration: 3,
                 level: 'Intermediate',
                 abstract: 'Controllers are the beginning of everything...',
                 upVoteCount: 0
